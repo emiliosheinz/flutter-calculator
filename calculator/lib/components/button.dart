@@ -23,23 +23,26 @@ class Button extends StatelessWidget {
         height: double.infinity,
         width: double.infinity,
         margin: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
+        child: Material(
           color: backgroundColor,
-        ),
-        child: InkWell(
-          onTap: () {
-            onPress(contentText);
-          },
-          child: Padding(
-            padding: EdgeInsets.only(left: isLong ? 35 : 0),
-            child: Align(
-              alignment: isLong ? Alignment.centerLeft : Alignment.center,
-              child: Text(
-                contentText,
-                style: TextStyle(
-                  fontSize: 36,
-                  color: textColor,
+          borderRadius: BorderRadius.circular(100),
+          child: InkWell(
+            onTap: () {
+              onPress(contentText);
+            },
+            borderRadius: BorderRadius.circular(100),
+            splashColor: Color.fromRGBO(255, 255, 255, 0.2),
+            highlightColor: Color.fromRGBO(255, 255, 255, 0.3),
+            child: Padding(
+              padding: EdgeInsets.only(left: isLong ? 35 : 0),
+              child: Align(
+                alignment: isLong ? Alignment.centerLeft : Alignment.center,
+                child: Text(
+                  contentText,
+                  style: TextStyle(
+                    fontSize: 36,
+                    color: textColor,
+                  ),
                 ),
               ),
             ),
