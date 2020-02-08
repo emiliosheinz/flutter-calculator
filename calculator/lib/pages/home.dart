@@ -66,13 +66,22 @@ class _HomePageState extends State<HomePage> {
   }
 
   hasTouchedOperation(text) {
+    if (storedOperation == '/' &&
+        firstAppender.isNotEmpty &&
+        secondAppender == '0') {
+      clear('');
+      setState(() {
+        result = 'Error';
+      });
+      return;
+    }
+
     if (appendOnFirst) {
       setState(() {
         appendOnFirst = false;
         storedOperation = text;
       });
     } else {
-      print('hello');
       switch (storedOperation) {
         case '+':
           sum();
@@ -107,6 +116,18 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  whatVariableIsShowedInDisplay() {
+    if (secondAppender.isNotEmpty) {
+      return 'secondAppender';
+    }
+
+    if (firstAppender.isNotEmpty) {
+      return 'firstAppender';
+    }
+
+    return 'result';
+  }
+
   clear(text) {
     setState(() {
       result = '0';
@@ -118,10 +139,45 @@ class _HomePageState extends State<HomePage> {
   }
 
   changeDisplayNumberValue(text) {
-    setState(() {
-      result = (double.parse(result) * -1).toString();
-      firstAppender = (double.parse(firstAppender) * -1).toString();
-    });
+    switch (whatVariableIsShowedInDisplay()) {
+      case 'result':
+        setState(() {
+          result = (double.parse(result) * -1).toString();
+        });
+        break;
+      case 'firstAppender':
+        setState(() {
+          firstAppender = (double.parse(firstAppender) * -1).toString();
+        });
+        break;
+      case 'secondAppender':
+        setState(() {
+          secondAppender = (double.parse(secondAppender) * -1).toString();
+        });
+        break;
+      default:
+    }
+  }
+
+  changeToPercentage(text) {
+    switch (whatVariableIsShowedInDisplay()) {
+      case 'result':
+        setState(() {
+          result = (double.parse(result) / 100).toString();
+        });
+        break;
+      case 'firstAppender':
+        setState(() {
+          firstAppender = (double.parse(firstAppender) / 100).toString();
+        });
+        break;
+      case 'secondAppender':
+        setState(() {
+          secondAppender = (double.parse(secondAppender) / 100).toString();
+        });
+        break;
+      default:
+    }
   }
 
   renderFirstLine() {
@@ -139,7 +195,7 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: HomePage.lightGray,
               textColor: HomePage.black),
           Button(
-              onPress: append,
+              onPress: changeToPercentage,
               contentText: '%',
               backgroundColor: HomePage.lightGray,
               textColor: HomePage.black),
@@ -269,8 +325,18 @@ class _HomePageState extends State<HomePage> {
   }
 
   renderDisplay() {
+    var displayContent = result;
+
+    if (firstAppender.isNotEmpty) {
+      displayContent = firstAppender;
+    }
+
+    if (secondAppender.isNotEmpty) {
+      displayContent = secondAppender;
+    }
+
     return Display(
-      contentText: result,
+      contentText: displayContent,
     );
   }
 
@@ -278,7 +344,7 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: <Widget>[
         Expanded(
-          flex: 4,
+          flex: 3,
           child: renderDisplay(),
         ),
         renderFirstLine(),
