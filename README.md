@@ -4,6 +4,3 @@ Calculator made with Flutter during CWI bootcamp. It is a simple and basic copy 
 ## :fire: Used technologies
 - Flutter
 - Dart
-
-## :man: Contributors
-- @emilioheinz
